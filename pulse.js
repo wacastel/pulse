@@ -68,10 +68,13 @@ function animate() {
   const scale = 1 + (average / 256);
   circle.style.transform = `scale(${scale})`;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Clear canvas with slight fade for trail effect
-  //ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // low alpha to see through
-  //ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // 💫 Magic fade without hiding gradient
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // ✨ Switch to normal/lighter drawing
+  ctx.globalCompositeOperation = 'lighter';
 
   // Create new particles based on volume
   if (average > 40 && Math.random() < 0.5) {
