@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  background: linear-gradient(120deg, #1e1e2f, #34346f, #6a3ea8);
+  background-size: 600% 600%;
+  animation: gradientShift 20s ease infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+#startButton {
+  position: absolute;
+  padding: 1em 2em;
+  font-size: 1.2em;
+  background: hotpink;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.pulse-circle {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,105,180,0.9), rgba(255,182,193,0.4));
+  border-radius: 50%;
+  box-shadow: 
+    0 0 30px rgba(255, 105, 180, 0.9),
+    0 0 60px rgba(255, 182, 193, 0.5),
+    0 0 90px rgba(255, 105, 180, 0.2);
+  transition: transform 0.1s ease-out;
+  filter: blur(0.8px);
+}
+
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.stars::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: repeating-radial-gradient(circle, rgba(255,255,255,0.2) 0 1px, transparent 1px 5px);
+  animation: drift 60s linear infinite;
+  opacity: 0.2;
+}
+
+@keyframes drift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-50%, -50%); }
+}
