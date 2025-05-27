@@ -27,75 +27,118 @@ visualizerCanvas.width = window.innerWidth;
 visualizerCanvas.height = window.innerHeight;
 
 class Particle {
-  constructor(x, y, size, speedX, speedY, color) {
+  constructor(x, y, size, speedX, speedY, band) {
     this.x = x;
     this.y = y;
     this.size = size;
     this.speedX = speedX;
     this.speedY = speedY;
-    this.color = color;
+    this.band = band; // 'bass', 'mid', 'high'
     this.alpha = 1;
+    this.brightness = 1;
   }
 
-  update(averageVolume) {
+  update(bandValues) {
     this.x += this.speedX;
     this.y += this.speedY;
-    this.alpha -= 0.01;
-    this.size += 0.05 * (averageVolume / 128);
+    this.alpha -= 0.01; // note: use a higher value such as 0.08 for faster fadeout
+
+    const volume = bandValues[this.band] || 0;
+    this.brightness = Math.min(2, 0.5 + (volume / 256) * 2);
+    this.size += 0.05 * (volume / 128);
+
     if (this.alpha < 0) this.alpha = 0;
   }
 
   draw(ctx) {
+    const hueMap = {
+      bass: 282,  // more violet (282)
+      mid: 60,    // yellow
+      high: 180   // cyan/blue
+    };
+    const hue = hueMap[this.band] || 0;
+
     ctx.save();
+
+    // Simulated glow layer
+    ctx.globalAlpha = this.alpha * 0.4;
+    ctx.beginPath();
+    ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
+    ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Core particle layer
     ctx.globalAlpha = this.alpha;
     ctx.beginPath();
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = `hsl(${hue}, 100%, 70%)`;
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
+
     ctx.restore();
   }
+}
+
+function averageInRange(start, end) {
+  let sum = 0;
+  for (let i = start; i <= end && i < dataArray.length; i++) {
+    sum += dataArray[i];
+  }
+  return sum / (end - start + 1);
 }
 
 function animate() {
   requestAnimationFrame(animate);
   analyser.getByteFrequencyData(dataArray);
 
-  let total = 0;
-  for (let i = 0; i < bufferLength; i++) {
-    total += dataArray[i];
-  }
-  const average = total / bufferLength;
-  const scale = 1 + (average / 256);
-  circle.style.transform = `scale(${scale})`;
+  const bandValues = {
+    bass: averageInRange(0, 10),
+    mid: averageInRange(11, 40),
+    high: averageInRange(41, 80),
+  };
+
+  const average = (bandValues.bass + bandValues.mid + bandValues.high) / 3;
+
+  circle.style.transform = `scale(${1 + average / 256})`;
 
   // 💫 Magic fade without hiding gradient
   ctx.globalCompositeOperation = 'destination-out';
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // ✨ Switch to normal/lighter drawing
-  ctx.globalCompositeOperation = 'lighter';
+  ctx.globalCompositeOperation = 'source-over'; // default mode (no glow)
+
+  const MAX_PARTICLES = 50;
 
   // Create new particles based on volume
-  if (average > 40 && Math.random() < 0.5) {
+  if (particles.length < MAX_PARTICLES && average > 40 && Math.random() < 0.5) {
+    const bands = ['bass', 'mid', 'high'];
     for (let i = 0; i < 3; i++) {
+      const spawnRadius = 50;
+      const angle = Math.random() * 2 * Math.PI;
+      const spawnX = canvas.width / 2 + Math.cos(angle) * spawnRadius * Math.random();
+      const spawnY = canvas.height / 2 + Math.sin(angle) * spawnRadius * Math.random();
+      const band = bands[Math.floor(Math.random() * bands.length)];
+
       particles.push(new Particle(
-        canvas.width / 2,
-        canvas.height / 2,
+        spawnX,
+        spawnY,
         Math.random() * 4 + 1,
         (Math.random() - 0.5) * 2,
         (Math.random() - 0.5) * 2,
-        `hsl(${Math.random() * 360}, 100%, 70%)`
+        band
       ));
     }
   }
 
   // Update and draw all particles
-  particles.forEach((p, index) => {
-    p.update(average);
-    p.draw(ctx);
-    if (p.alpha <= 0) particles.splice(index, 1);
-  });
+  for (let i = particles.length - 1; i >= 0; i--) {
+    particles[i].update(bandValues);
+    particles[i].draw(ctx);
+    if (particles[i].alpha <= 0) {
+      particles.splice(i, 1);
+    }
+  }
 }
 
 button.addEventListener('click', () => {
@@ -105,25 +148,30 @@ button.addEventListener('click', () => {
   context.resume().then(() => {
     audio.play();
     animate();
-    draw();
+    drawBarGraph();
   });
 });
 
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  visualizerCanvas.width = window.innerWidth;
-  visualizerCanvas.height = window.innerHeight;
+  visualizerCanvas.width = WIDTH = window.innerWidth;
+  visualizerCanvas.height = HEIGHT = window.innerHeight;
 });
 
-const WIDTH = visualizerCanvas.width;
-const HEIGHT = visualizerCanvas.height;
+document.addEventListener('keydown', e => {
+  if (e.key === 'd') {
+    console.log('Particles:', particles.length);
+  }
+});
+
+let WIDTH = visualizerCanvas.width;
+let HEIGHT = visualizerCanvas.height;
 
 canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
 
-function draw() {
-  drawVisual = requestAnimationFrame(draw);
-
+function drawBarGraph() {
+  requestAnimationFrame(drawBarGraph);
   analyser.getByteFrequencyData(dataArray);
 
   canvasCtx.fillStyle = "rgb(0 0 0)";
@@ -136,8 +184,8 @@ function draw() {
 
   for (let i = 0; i < bufferLength; i++) {
     barHeight = dataArray[i] * heightMultiplier;
-
-    canvasCtx.fillStyle = `rgb(${barHeight + 100} 50 50)`;
+    const hue = i * 3; // scale up to ~765°
+    canvasCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
     canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
 
     x += barWidth + 1;
