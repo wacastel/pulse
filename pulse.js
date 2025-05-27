@@ -26,6 +26,62 @@ const canvasCtx = visualizerCanvas.getContext("2d");
 visualizerCanvas.width = window.innerWidth;
 visualizerCanvas.height = window.innerHeight;
 
+const songs = [
+  "songs/track1.mp3",
+  "songs/track2.mp3",
+  "songs/track3.mp3"
+];
+
+let currentTrack = 0;
+
+const playlistUI = document.getElementById("playlistUI");
+songs.forEach((src, idx) => {
+  const songName = src.split("/").pop();
+  const div = document.createElement("div");
+  div.textContent = songName;
+  div.classList.add("track-item");
+  div.style.cursor = "pointer";
+  div.onclick = () => loadTrack(idx);
+  playlistUI.appendChild(div);
+});
+
+const timeDisplay = document.getElementById("timeDisplay");
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function loadTrack(index) {
+  if (index >= songs.length) {
+    currentTrack = 0; // loop back to first
+  } else if (index < 0) {
+    currentTrack = songs.length - 1;
+  } else {
+    currentTrack = index;
+  }
+  audio.src = songs[currentTrack];
+  timeDisplay.textContent = "00:00 / 00:00";
+  playPauseBtn.textContent = "⏸️"; // since we're auto-playing on load
+  audio.play();
+
+  if (window.timeInterval) clearInterval(window.timeInterval);
+  window.timeInterval = setInterval(() => {
+    const current = audio.currentTime;
+    const total = audio.duration || 0;
+    timeDisplay.textContent = `${formatTime(current)} / ${formatTime(total)}`;
+  }, 500);
+
+
+  // Highlight the active track
+  const trackItems = document.querySelectorAll(".track-item");
+  trackItems.forEach((el, idx) => {
+    el.classList.toggle("active-track", idx === currentTrack);
+  });
+}
+
+
 class Particle {
   constructor(x, y, size, speedX, speedY, band) {
     this.x = x;
@@ -51,11 +107,10 @@ class Particle {
   }
 
   draw(ctx) {
-    const hueMap = {
-      bass: 282,  // more violet (282)
-      mid: 60,    // yellow
-      high: 180   // cyan/blue
-    };
+    const isGoth = document.body.classList.contains("goth-mode");
+    const hueMap = isGoth
+      ? { bass: 345, mid: 300, high: 260 }  // red, magenta, purple
+      : { bass: 282, mid: 60, high: 180 }; // violet, yellow, cyan
     const hue = hueMap[this.band] || 0;
 
     ctx.save();
@@ -146,10 +201,18 @@ button.addEventListener('click', () => {
   circle.style.display = 'block';
 
   context.resume().then(() => {
-    audio.play();
+    loadTrack(0); // start playlist
     animate();
     drawBarGraph();
   });
+});
+
+const gothButton = document.getElementById("gothButton");
+gothButton.addEventListener("click", () => {
+  document.body.classList.toggle("goth-mode");
+  gothButton.textContent = document.body.classList.contains("goth-mode")
+    ? "Disable Goth Mode"
+    : "Enable Goth Mode";
 });
 
 window.addEventListener('resize', () => {
@@ -163,6 +226,42 @@ document.addEventListener('keydown', e => {
   if (e.key === 'd') {
     console.log('Particles:', particles.length);
   }
+});
+
+audio.addEventListener("ended", () => {
+  clearInterval(window.timeInterval);
+  timeDisplay.textContent = "00:00 / 00:00";
+  playPauseBtn.textContent = "▶️";
+  loadTrack(currentTrack + 1);
+});
+
+const playPauseBtn = document.getElementById("playPauseBtn");
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+const restartBtn = document.getElementById("restartBtn");
+
+restartBtn.addEventListener("click", () => {
+  audio.currentTime = 0;
+  audio.play();
+  playPauseBtn.textContent = "⏸️";
+});
+
+playPauseBtn.addEventListener("click", () => {
+  if (audio.paused) {
+    audio.play();
+    playPauseBtn.textContent = "⏸️";
+  } else {
+    audio.pause();
+    playPauseBtn.textContent = "▶️";
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  loadTrack(currentTrack + 1);
+});
+
+prevBtn.addEventListener("click", () => {
+  loadTrack(currentTrack - 1);
 });
 
 let WIDTH = visualizerCanvas.width;

@@ -12,7 +12,16 @@
   <canvas id="visualizerCanvas"></canvas>
   <div class="pulse-circle" style="display:none;"></div>
   <button id="startButton">Start the Vibe</button>
-  <audio id="audio" src="music.mp3" loop></audio>
+  <button id="gothButton">Enable Goth Mode</button>
+  <audio id="audio" controls style="display:none"></audio>
+  <div id="playlistUI"></div>
+  <div id="timeDisplay">00:00 / 00:00</div>
+  <div id="playerControls">
+    <button id="prevBtn" title="Restart Track">⏮️</button>
+    <button id="restartBtn" title="Restart Track">🔁</button>
+    <button id="playPauseBtn" title="Play/Pause">▶️</button>
+    <button id="nextBtn" title="Next Track">⏭️</button>
+  </div>
   <script src="pulse.js"></script>
 </body>
 </html>
