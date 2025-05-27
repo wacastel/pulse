@@ -75,12 +75,29 @@ function shuffleArray(array) {
   return copy;
 }
 
+function parseTrackInfo(filePath) {
+  const parts = filePath.split("/");
+  const trackFile = parts.pop().replace(".mp3", "");
+  const album = parts.pop();
+  const artist = parts.pop();
+  return {
+    artist,
+    album,
+    track: trackFile
+  };
+}
+
 function loadTrack(index) {
   const playlist = isShuffled ? shuffledSongs : songs;
   currentTrack = (index + playlist.length) % playlist.length;
 
   const trackToPlay = playlist[currentTrack];
   audio.src = trackToPlay;
+
+  const info = parseTrackInfo(trackToPlay);
+  const nowPlayingText = document.getElementById("nowPlayingText");
+  nowPlayingText.textContent = `🎵 ${info.track}  •  🎤 ${info.artist}  •  💿 ${info.album}`;
+
   audio.play();
 
   // Update track highlighting in the original order list
