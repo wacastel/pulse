@@ -26,28 +26,37 @@ const canvasCtx = visualizerCanvas.getContext("2d");
 visualizerCanvas.width = window.innerWidth;
 visualizerCanvas.height = window.innerHeight;
 
-const songs = [
-  "songs/track1.mp3",
-  "songs/track2.mp3",
-  "songs/track3.mp3"
-];
-
+let songs = [];
 let currentTrack = 0;
 let isShuffled = false;
-let shuffledSongs = [...songs];
+let shuffledSongs = [];
 let playlistItems = []; // new array to track DOM elements
 
-const playlistUI = document.getElementById("playlistUI");
-songs.forEach((src, idx) => {
-  const songName = src.split("/").pop();
-  const div = document.createElement("div");
-  div.textContent = songName;
-  div.classList.add("track-item");
-  div.style.cursor = "pointer";
-  div.onclick = () => loadTrack(idx);
-  playlistUI.appendChild(div);
-  playlistItems.push(div); // store the element
-});
+fetch("playlist.json")
+  .then(res => res.json())
+  .then(data => {
+    songs = data;
+    shuffledSongs = [...songs];
+    buildPlaylistUI();
+    console.log("Playlist loaded:", songs);
+  });
+
+function buildPlaylistUI() {
+  const playlistUI = document.getElementById("playlistUI");
+  playlistUI.innerHTML = "";
+  playlistItems = [];
+
+  songs.forEach((src, idx) => {
+    const songName = src.split("/").pop();
+    const div = document.createElement("div");
+    div.textContent = songName;
+    div.classList.add("track-item");
+    div.style.cursor = "pointer";
+    div.onclick = () => loadTrack(idx);
+    playlistUI.appendChild(div);
+    playlistItems.push(div); // store the element
+  });
+}
 
 const timeDisplay = document.getElementById("timeDisplay");
 
