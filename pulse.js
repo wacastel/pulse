@@ -38,7 +38,7 @@ fetch("playlist.json")
     songs = data;
     shuffledSongs = [...songs];
     buildPlaylistUI();
-    console.log("Playlist loaded:", songs);
+    //console.log("Playlist loaded:", songs);
   });
 
 function buildPlaylistUI() {
