@@ -33,6 +33,9 @@ const songs = [
 ];
 
 let currentTrack = 0;
+let isShuffled = false;
+let shuffledSongs = [...songs];
+let playlistItems = []; // new array to track DOM elements
 
 const playlistUI = document.getElementById("playlistUI");
 songs.forEach((src, idx) => {
@@ -43,6 +46,7 @@ songs.forEach((src, idx) => {
   div.style.cursor = "pointer";
   div.onclick = () => loadTrack(idx);
   playlistUI.appendChild(div);
+  playlistItems.push(div); // store the element
 });
 
 const timeDisplay = document.getElementById("timeDisplay");
@@ -53,34 +57,41 @@ function formatTime(seconds) {
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
-function loadTrack(index) {
-  if (index >= songs.length) {
-    currentTrack = 0; // loop back to first
-  } else if (index < 0) {
-    currentTrack = songs.length - 1;
-  } else {
-    currentTrack = index;
+function shuffleArray(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  audio.src = songs[currentTrack];
-  timeDisplay.textContent = "00:00 / 00:00";
-  playPauseBtn.textContent = "⏸️"; // since we're auto-playing on load
+  return copy;
+}
+
+function loadTrack(index) {
+  const playlist = isShuffled ? shuffledSongs : songs;
+  currentTrack = (index + playlist.length) % playlist.length;
+
+  const trackToPlay = playlist[currentTrack];
+  audio.src = trackToPlay;
   audio.play();
 
+  // Update track highlighting in the original order list
+  const actualIndex = songs.findIndex(song => song === trackToPlay);
+
+  playlistItems.forEach((el, idx) => {
+    el.classList.toggle("active-track", idx === actualIndex);
+  });
+
+  playPauseBtn.textContent = "⏸️";
+
+  // Reset and start time tracking
+  timeDisplay.textContent = "00:00 / 00:00";
   if (window.timeInterval) clearInterval(window.timeInterval);
   window.timeInterval = setInterval(() => {
     const current = audio.currentTime;
     const total = audio.duration || 0;
     timeDisplay.textContent = `${formatTime(current)} / ${formatTime(total)}`;
   }, 500);
-
-
-  // Highlight the active track
-  const trackItems = document.querySelectorAll(".track-item");
-  trackItems.forEach((el, idx) => {
-    el.classList.toggle("active-track", idx === currentTrack);
-  });
 }
-
 
 class Particle {
   constructor(x, y, size, speedX, speedY, band) {
@@ -222,12 +233,6 @@ window.addEventListener('resize', () => {
   visualizerCanvas.height = HEIGHT = window.innerHeight;
 });
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'd') {
-    console.log('Particles:', particles.length);
-  }
-});
-
 audio.addEventListener("ended", () => {
   clearInterval(window.timeInterval);
   timeDisplay.textContent = "00:00 / 00:00";
@@ -262,6 +267,71 @@ nextBtn.addEventListener("click", () => {
 
 prevBtn.addEventListener("click", () => {
   loadTrack(currentTrack - 1);
+});
+
+document.addEventListener("keydown", (event) => {
+  const tag = event.target.tagName.toLowerCase();
+  const isTyping = tag === "input" || tag === "textarea";
+
+  if (isTyping) return; // don’t hijack typing input
+
+  switch (event.key) {
+    case " ":
+      event.preventDefault(); // prevent page scroll
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = "⏸️";
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = "▶️";
+      }
+      break;
+
+    case "ArrowRight":
+      loadTrack(currentTrack + 1);
+      break;
+
+    case "ArrowLeft":
+      loadTrack(currentTrack - 1);
+      break;
+
+    case "r":
+    case "R":
+      audio.currentTime = 0;
+      audio.play();
+      playPauseBtn.textContent = "⏸️";
+      break;
+
+    case "d":
+    case "D":
+      console.log('Particles:', particles.length);
+      break;
+
+    case "s":
+    case "S":
+      isShuffled = !isShuffled;
+      if (isShuffled) {
+        shuffledSongs = shuffleArray(songs);
+        console.log("Shuffle: ON");
+      } else {
+        console.log("Shuffle: OFF");
+      }
+      break;
+
+    case "m":
+    case "M":
+      audio.muted = !audio.muted;
+      console.log(`Mute: ${audio.muted ? "ON" : "OFF"}`);
+      break;
+
+    case "g":
+    case "G":
+      document.body.classList.toggle("goth-mode");
+      gothButton.textContent = document.body.classList.contains("goth-mode")
+        ? "Disable Goth Mode"
+        : "Enable Goth Mode";
+      break;
+  }
 });
 
 let WIDTH = visualizerCanvas.width;
