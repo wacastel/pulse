@@ -8,7 +8,9 @@ if (circle) {
   circle.appendChild(skullContainer);
 }
 
-const skullCount = 6;
+const skullCount = 30;
+document.documentElement.style.setProperty('--skull-count', skullCount);
+
 for (let i = 0; i < skullCount; i++) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("skull-orbit-wrapper");

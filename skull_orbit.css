@@ -17,7 +17,7 @@
   height: 0;
   transform-origin: center;
   animation: orbit 8s linear infinite;
-  animation-delay: calc(-8s * var(--i) / 6);
+  animation-delay: calc(-8s * var(--i) / var(--skull-count));
 }
 
 @keyframes orbit {
