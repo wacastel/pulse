@@ -385,7 +385,7 @@ function drawBarGraph() {
   const barWidth = (WIDTH / bufferLength) * 2.5;
   let barHeight;
   let x = 0;
-  let heightMultiplier = 8.5;
+  let heightMultiplier = 5;
 
   for (let i = 0; i < bufferLength; i++) {
     barHeight = dataArray[i] * heightMultiplier;

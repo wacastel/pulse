@@ -37,6 +37,6 @@ window.updateSkullOrbitRadius = function(average) {
   const radius = 100 + (average / 2);
   const skulls = document.querySelectorAll(".skull");
   skulls.forEach(skull => {
-    skull.style.transform = `translateX(${radius}px) translate(-50%, -50%)`;
+    skull.style.transform = `translateX(${radius}px) translate(-50%, -50%) rotate(90deg)`;
   });
 };
