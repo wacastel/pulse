@@ -3,7 +3,6 @@
 
 skullContainer = document.createElement("div");
 skullContainer.id = "skullOrbit";
-// Add this inside skull_orbit_dynamic.js
 const circle = document.querySelector('.pulse-circle');
 if (circle) {
   circle.appendChild(skullContainer);
@@ -21,16 +20,6 @@ for (let i = 0; i < skullCount; i++) {
   wrapper.appendChild(skull);
   skullContainer.appendChild(wrapper);
 }
-
-/*function updateSkullVisibility() {
-  const isGoth = document.body.classList.contains("goth-mode");
-  skullContainer.style.display = isGoth ? "block" : "none";
-}
-
-updateSkullVisibility();
-if (gothButton) {
-  gothButton.addEventListener("click", updateSkullVisibility);
-}*/
 
 // Dynamic radius applied within animate loop
 window.updateSkullOrbitRadius = function(average) {

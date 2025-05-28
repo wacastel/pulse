@@ -235,7 +235,7 @@ function animate() {
   }
 }
 
-button.addEventListener('click', () => {
+function startPlaying() {
   button.style.display = 'none';
   circle.style.display = 'block';
 
@@ -244,6 +244,10 @@ button.addEventListener('click', () => {
     animate();
     drawBarGraph();
   });
+}
+
+button.addEventListener('click', () => {
+  startPlaying();
 });
 
 function updateSkullVisibility() {
@@ -313,12 +317,16 @@ document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case " ":
       event.preventDefault(); // prevent page scroll
-      if (audio.paused) {
-        audio.play();
-        playPauseBtn.textContent = "⏸️";
+      if (!audio.src) {
+        startPlaying();
       } else {
-        audio.pause();
-        playPauseBtn.textContent = "▶️";
+        if (audio.paused) {
+          audio.play();
+          playPauseBtn.textContent = "⏸️";
+        } else {
+          audio.pause();
+          playPauseBtn.textContent = "▶️";
+        }
       }
       break;
 
