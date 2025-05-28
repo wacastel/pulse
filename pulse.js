@@ -250,6 +250,11 @@ button.addEventListener('click', () => {
   startPlaying();
 });
 
+function toggleShortcuts() {
+  const list = document.getElementById('shortcut-list');
+  list.style.display = list.style.display === 'block' ? 'none' : 'block';
+}
+
 function updateSkullVisibility() {
   const isGoth = document.body.classList.contains("goth-mode");
   skullContainer.style.display = isGoth ? "block" : "none";
