@@ -1,5 +1,4 @@
-
-<img width="1234" alt="Goth Mode" src="https://github.com/user-attachments/assets/fe3ec315-bd55-4573-b42a-9f5c00f6c2d7" />
+<img width="1326" alt="Screenshot 2025-05-27 at 9 34 40 PM" src="https://github.com/user-attachments/assets/7951a5d3-76ae-4519-ad9a-f0e8fbd84a72" />
 
 How to start the server:
 
