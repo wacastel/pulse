@@ -26,6 +26,7 @@ body {
 }
 
 .pulse-circle {
+  position: relative; /* this makes sure skullOrbit is centered inside it */
   width: 200px;
   height: 200px;
   background: radial-gradient(circle, rgba(255,105,180,0.9), rgba(255,182,193,0.4));

@@ -1,5 +1,4 @@
 const audio = document.getElementById('audio');
-const circle = document.querySelector('.pulse-circle');
 const button = document.getElementById('startButton');
 
 const context = new (window.AudioContext || window.webkitAudioContext)();
@@ -38,7 +37,6 @@ fetch("playlist.json")
     songs = data;
     shuffledSongs = [...songs];
     buildPlaylistUI();
-    //console.log("Playlist loaded:", songs);
   });
 
 function buildPlaylistUI() {
@@ -190,6 +188,10 @@ function animate() {
 
   const average = (bandValues.bass + bandValues.mid + bandValues.high) / 3;
 
+  if (document.body.classList.contains("goth-mode") && typeof updateSkullOrbitRadius === "function") {
+    updateSkullOrbitRadius(average);
+  }
+
   circle.style.transform = `scale(${1 + average / 256})`;
 
   // 💫 Magic fade without hiding gradient
@@ -244,12 +246,19 @@ button.addEventListener('click', () => {
   });
 });
 
+function updateSkullVisibility() {
+  const isGoth = document.body.classList.contains("goth-mode");
+  skullContainer.style.display = isGoth ? "block" : "none";
+}
+updateSkullVisibility();
+
 const gothButton = document.getElementById("gothButton");
 gothButton.addEventListener("click", () => {
   document.body.classList.toggle("goth-mode");
   gothButton.textContent = document.body.classList.contains("goth-mode")
     ? "Disable Goth Mode"
     : "Enable Goth Mode";
+  updateSkullVisibility();
 });
 
 window.addEventListener('resize', () => {
@@ -356,6 +365,7 @@ document.addEventListener("keydown", (event) => {
       gothButton.textContent = document.body.classList.contains("goth-mode")
         ? "Disable Goth Mode"
         : "Enable Goth Mode";
+      updateSkullVisibility();
       break;
   }
 });
