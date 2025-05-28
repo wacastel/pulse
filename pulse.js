@@ -187,12 +187,18 @@ function animate() {
   };
 
   const average = (bandValues.bass + bandValues.mid + bandValues.high) / 3;
+  const scaleValue = 1 + average / 256;
 
-  if (document.body.classList.contains("goth-mode") && typeof updateSkullOrbitRadius === "function") {
-    updateSkullOrbitRadius(average);
+  circle.style.transform = `scale(${scaleValue})`;
+
+  const skullOrbit = document.getElementById('skullOrbit');
+  if (skullOrbit) {
+    skullOrbit.style.transform = `translate(-50%, -50%) scale(${scaleValue/1.125})`; // boost it!
   }
 
-  circle.style.transform = `scale(${1 + average / 256})`;
+  if (typeof updateOrbitingCircles === "function") {
+    updateOrbitingCircles(average);
+  }
 
   // 💫 Magic fade without hiding gradient
   ctx.globalCompositeOperation = 'destination-out';

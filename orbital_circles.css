@@ -1,0 +1,19 @@
+.orbital-circle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
+}
+
+.orbital-circle.scale {
+  transition: transform 0.1s ease-out;
+}

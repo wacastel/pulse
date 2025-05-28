@@ -15,6 +15,7 @@
   left: 50%;
   width: 0;
   height: 0;
+  transform: translate(-50%, -50%);
   transform-origin: center;
   animation: orbit 8s linear infinite;
   animation-delay: calc(-8s * var(--i) / var(--skull-count));

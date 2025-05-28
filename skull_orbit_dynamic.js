@@ -14,6 +14,7 @@ document.documentElement.style.setProperty('--skull-count', skullCount);
 for (let i = 0; i < skullCount; i++) {
   const wrapper = document.createElement("div");
   wrapper.classList.add("skull-orbit-wrapper");
+  wrapper.id = "skullOrbitWrapper";
   wrapper.style.setProperty("--i", i);
 
   const skull = document.createElement("div");
@@ -22,12 +23,3 @@ for (let i = 0; i < skullCount; i++) {
   wrapper.appendChild(skull);
   skullContainer.appendChild(wrapper);
 }
-
-// Dynamic radius applied within animate loop
-window.updateSkullOrbitRadius = function(average) {
-  const radius = 100 + (average / 2);
-  const skulls = document.querySelectorAll(".skull");
-  skulls.forEach(skull => {
-    skull.style.transform = `translateX(${radius}px) translate(-50%, -50%) rotate(90deg)`;
-  });
-};
