@@ -9,6 +9,17 @@
   z-index: 3;
 }
 
+#skullOrbitReverse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  z-index: 3;
+}
+
 .skull-orbit-wrapper {
   position: absolute;
   top: 50%;
@@ -18,6 +29,18 @@
   transform: translate(-50%, -50%);
   transform-origin: center;
   animation: orbit 8s linear infinite;
+  animation-delay: calc(-8s * var(--i) / var(--skull-count));
+}
+
+.skull-orbit-wrapper-reverse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  animation: orbit 8s linear infinite reverse;
   animation-delay: calc(-8s * var(--i) / var(--skull-count));
 }
 
@@ -31,6 +54,15 @@
 }
 
 .skull {
+  width: 24px;
+  height: 24px;
+  background-image: url('https://emojiapi.dev/api/v1/1f480/64.png');
+  background-size: cover;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+}
+
+.skullRed {
   width: 24px;
   height: 24px;
   background-image: url('https://emojiapi.dev/api/v1/1f480/64.png');

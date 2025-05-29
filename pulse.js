@@ -193,7 +193,12 @@ function animate() {
 
   const skullOrbit = document.getElementById('skullOrbit');
   if (skullOrbit) {
-    skullOrbit.style.transform = `translate(-50%, -50%) scale(${scaleValue/1.125})`; // boost it!
+    skullOrbit.style.transform = `translate(-50%, -50%) scale(${scaleValue/1.125})`;
+  }
+
+  const skullOrbitReverse = document.getElementById('skullOrbitReverse');
+  if (skullOrbitReverse) {
+    skullOrbitReverse.style.transform = `translate(-50%, -50%) scale(${scaleValue/1.3})`;
   }
 
   if (typeof updateOrbitingCircles === "function") {
@@ -264,6 +269,7 @@ function toggleShortcuts() {
 function updateSkullVisibility() {
   const isGoth = document.body.classList.contains("goth-mode");
   skullContainer.style.display = isGoth ? "block" : "none";
+  skullContainerReverse.style.display = isGoth ? "block" : "none";
 }
 updateSkullVisibility();
 
