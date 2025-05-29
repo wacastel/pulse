@@ -1,4 +1,5 @@
-#skullOrbit {
+/* Orbit container setup remains the same */
+#skullOrbit, #skullOrbitReverse {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -9,64 +10,53 @@
   z-index: 3;
 }
 
-#skullOrbitReverse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
-  pointer-events: none;
-  z-index: 3;
-}
-
+/* Wrapper positions each skull at a fixed angle */
 .skull-orbit-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 0;
-  height: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(var(--angle));
   transform-origin: center;
-  animation: orbit 8s linear infinite;
-  animation-delay: calc(-8s * var(--i) / var(--skull-count));
 }
 
-.skull-orbit-wrapper-reverse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
+/* Inner rotator animates the skull around the center */
+.skull-rotator {
+  animation: orbit 8s linear infinite;
+}
+
+/* Reverse rotator spins the opposite way */
+.skull-rotator-reverse {
   animation: orbit 8s linear infinite reverse;
-  animation-delay: calc(-8s * var(--i) / var(--skull-count));
 }
 
 @keyframes orbit {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
+/* The skull image itself */
 .skull {
   width: 24px;
   height: 24px;
   background-image: url('https://emojiapi.dev/api/v1/1f480/64.png');
   background-size: cover;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
+  animation: skull-spin 8s linear infinite;
 }
 
-.skullRed {
-  width: 24px;
-  height: 24px;
-  background-image: url('https://emojiapi.dev/api/v1/1f480/64.png');
-  background-size: cover;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
+@keyframes skull-spin {
+  from {
+    transform: rotate(-270deg);
+  }
+  to {
+    transform: rotate(90deg);
+  }
+}
+
+.reverse-spin {
+  animation: skull-spin-reverse 8s linear infinite;
+}
+
+@keyframes skull-spin-reverse {
+  from { transform: rotate(90deg); }
+  to { transform: rotate(-270deg); }
 }

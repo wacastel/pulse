@@ -11,28 +11,42 @@ if (circle) {
 }
 
 const skullCount = 30;
-document.documentElement.style.setProperty('--skull-count', skullCount);
+const orbitRadius = 150;
+const skullOrbit = document.getElementById("skullOrbit");
+const skullOrbitReverse = document.getElementById("skullOrbitReverse");
 
-for (let i = 0; i < skullCount; i++) {
+function createSkull(angleDeg, isReverse = false) {
   const wrapper = document.createElement("div");
-  wrapper.classList.add("skull-orbit-wrapper");
-  wrapper.style.setProperty("--i", i);
+  wrapper.className = "skull-orbit-wrapper";
+  wrapper.style.setProperty("--angle", `${angleDeg}deg`);
+
+  const rotator = document.createElement("div");
+  
+  if (isReverse) {
+    rotator.classList.add("skull-rotator-reverse");
+  } else {
+    rotator.className = "skull-rotator";
+  }
+
+
 
   const skull = document.createElement("div");
-  skull.classList.add("skull");
+  skull.className = "skull";
+  if (isReverse) skull.classList.add("reverse-spin");
 
-  wrapper.appendChild(skull);
-  skullContainer.appendChild(wrapper);
+  rotator.appendChild(skull);
+  wrapper.appendChild(rotator);
+
+  return wrapper;
 }
 
+// Populate both orbits
 for (let i = 0; i < skullCount; i++) {
-  const wrapperReverse = document.createElement("div");
-  wrapperReverse.classList.add("skull-orbit-wrapper-reverse");
-  wrapperReverse.style.setProperty("--i", i);
+  const angle = (i * 360) / skullCount;
 
-  const skullRed = document.createElement("div");
-  skullRed.classList.add("skullRed");
+  // Clockwise orbit
+  skullOrbit.appendChild(createSkull(angle, false));
 
-  wrapperReverse.appendChild(skullRed);
-  skullContainerReverse.appendChild(wrapperReverse);
+  // Counter-clockwise orbit
+  skullOrbitReverse.appendChild(createSkull(angle, true));
 }
