@@ -1,4 +1,7 @@
-<img width="1326" alt="Screenshot 2025-05-27 at 9 34 40 PM" src="https://github.com/user-attachments/assets/7951a5d3-76ae-4519-ad9a-f0e8fbd84a72" />
+
+<img width="1706" alt="Screenshot 2025-05-28 at 5 51 08 PM" src="https://github.com/user-attachments/assets/8d363692-65c2-4c94-b7fa-fa85b43ebd54" />
+
+<img width="1709" alt="Screenshot 2025-05-28 at 5 51 19 PM" src="https://github.com/user-attachments/assets/57b775d5-1e19-4cf8-a02c-c7e184a2e6a6" />
 
 How to start the server:
 
