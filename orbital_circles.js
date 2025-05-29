@@ -14,22 +14,49 @@ for (let i = 0; i < circleCount; i++) {
   circles.push(wrapper);
 }
 
+const orbitCanvas = document.getElementById("orbitTrailCanvas");
+const orbitCtx = orbitCanvas.getContext("2d", { alpha: true }); // 👈 important for transparency
+orbitCanvas.width = 600;
+orbitCanvas.height = 600;
+
 // Pulse logic (called externally, e.g. from animate loop in pulse.js)
 window.updateOrbitingCircles = function (average) {
   const time = performance.now() / 1000;
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
+  const canvasRect = orbitCanvas.getBoundingClientRect();
+  const centerX = canvasRect.left + orbitCanvas.width / 2;
+  const centerY = canvasRect.top + orbitCanvas.height / 2;
+  const drawCenterX = orbitCanvas.width / 2;
+  const drawCenterY = orbitCanvas.height / 2;
+
+  // Clear with transparency for trailing effect
+  orbitCtx.globalCompositeOperation = "destination-out";
+  orbitCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  orbitCtx.fillRect(0, 0, orbitCanvas.width, orbitCanvas.height);
+
+  orbitCtx.globalCompositeOperation = "lighter"; // for glowy blending
 
   circles.forEach((circle, i) => {
     const angle = time * 0.3 + (i * (Math.PI * 2) / circles.length);
     const offset = Math.sin(time * 2 + i);
     const scale = 1 + (average / 512) + 0.2 * offset;
 
-    const x = centerX + 200 * Math.cos(angle);
-    const y = centerY + 200 * Math.sin(angle);
+    const trailX = drawCenterX + 200 * Math.cos(angle);
+    const trailY = drawCenterY + 200 * Math.sin(angle);
 
-    circle.style.left = `${x}px`;
-    circle.style.top = `${y}px`;
+    const circleX = centerX + 200 * Math.cos(angle);
+    const circleY = centerY + 200 * Math.sin(angle);
+
+    // Draw orbit glow effect
+    orbitCtx.beginPath();
+    orbitCtx.arc(trailX, trailY, 6, 0, Math.PI * 2);
+    orbitCtx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    orbitCtx.shadowBlur = 15;
+    orbitCtx.shadowColor = 'white';
+    orbitCtx.fill();
+
+    // Move DOM element
+    circle.style.left = `${circleX}px`;
+    circle.style.top = `${circleY}px`;
     circle.style.transform = `translate(-50%, -50%) scale(${scale})`;
   });
 };

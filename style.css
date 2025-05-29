@@ -45,6 +45,7 @@ body {
     0 0 90px rgba(255, 105, 180, 0.2);
   transition: transform 0.1s ease-out;
   filter: blur(0.8px);
+  z-index: 2;
 }
 
 .stars {
@@ -78,7 +79,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: -2;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -292,4 +293,16 @@ body.goth-mode #gothButton {
 #shortcut-list ul {
   padding-left: 20px;
   margin: 0;
+}
+
+#orbitTrailCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  transform: translate(-50%, -50%);
+  z-index: 0; /* just above the background, below particles */
+  pointer-events: none;
+  background: transparent; /* 👈 KEY LINE */
 }
