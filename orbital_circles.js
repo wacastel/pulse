@@ -31,7 +31,7 @@ window.updateOrbitingCircles = function (average) {
 
   // Clear with transparency for trailing effect
   orbitCtx.globalCompositeOperation = "destination-out";
-  orbitCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  orbitCtx.fillStyle = "rgba(0, 0, 0, 0.08)";
   orbitCtx.fillRect(0, 0, orbitCanvas.width, orbitCanvas.height);
 
   orbitCtx.globalCompositeOperation = "lighter"; // for glowy blending
@@ -39,8 +39,8 @@ window.updateOrbitingCircles = function (average) {
   circles.forEach((circle, i) => {
     const angle = time * 0.3 + (i * (Math.PI * 2) / circles.length);
     const offset = Math.sin(time * 2 + i);
-    const scale = 1 + (average / 128) + 0.75 * offset;
-    const radius = 280;
+    const scale = 1 + (average / 64) + 0.5 * offset;
+    const radius = 270;
 
     const trailX = drawCenterX + radius * Math.cos(angle);
     const trailY = drawCenterY + radius * Math.sin(angle);
@@ -51,8 +51,8 @@ window.updateOrbitingCircles = function (average) {
     // Draw orbit glow effect
     orbitCtx.beginPath();
     orbitCtx.arc(trailX, trailY, 6, 0, Math.PI * 2);
-    orbitCtx.fillStyle = "rgba(255, 255, 255, 0.2)";
-    orbitCtx.shadowBlur = 15;
+    orbitCtx.fillStyle = "rgba(255, 255, 255, 0.4)";
+    orbitCtx.shadowBlur = 20;
     orbitCtx.shadowColor = 'white';
     orbitCtx.fill();
 
