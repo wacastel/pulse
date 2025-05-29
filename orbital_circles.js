@@ -1,6 +1,7 @@
 const circleCount = 3;
 const orbitalContainer = document.createElement("div");
 orbitalContainer.id = "orbitalContainer";
+orbitalContainer.style.display = 'none';
 document.body.appendChild(orbitalContainer);
 
 const circles = [];

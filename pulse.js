@@ -249,6 +249,7 @@ function animate() {
 function startPlaying() {
   button.style.display = 'none';
   circle.style.display = 'block';
+  orbitalContainer.style.display = 'block';
 
   context.resume().then(() => {
     loadTrack(0); // start playlist
