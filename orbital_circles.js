@@ -39,13 +39,14 @@ window.updateOrbitingCircles = function (average) {
   circles.forEach((circle, i) => {
     const angle = time * 0.3 + (i * (Math.PI * 2) / circles.length);
     const offset = Math.sin(time * 2 + i);
-    const scale = 1 + (average / 512) + 0.2 * offset;
+    const scale = 1 + (average / 128) + 0.75 * offset;
+    const radius = 280;
 
-    const trailX = drawCenterX + 200 * Math.cos(angle);
-    const trailY = drawCenterY + 200 * Math.sin(angle);
+    const trailX = drawCenterX + radius * Math.cos(angle);
+    const trailY = drawCenterY + radius * Math.sin(angle);
 
-    const circleX = centerX + 200 * Math.cos(angle);
-    const circleY = centerY + 200 * Math.sin(angle);
+    const circleX = centerX + radius * Math.cos(angle);
+    const circleY = centerY + radius * Math.sin(angle);
 
     // Draw orbit glow effect
     orbitCtx.beginPath();
