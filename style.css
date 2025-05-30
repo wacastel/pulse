@@ -294,15 +294,3 @@ body.goth-mode #gothButton {
   padding-left: 20px;
   margin: 0;
 }
-
-#orbitTrailCanvas {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 600px;
-  height: 600px;
-  transform: translate(-50%, -50%);
-  z-index: 0; /* just above the background, below particles */
-  pointer-events: none;
-  background: transparent; /* 👈 KEY LINE */
-}

@@ -15,3 +15,13 @@
 .orbital-circle.scale {
   transition: transform 0.1s ease-out;
 }
+
+#orbitTrailCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0; /* just above the background, below particles */
+  pointer-events: none;
+  background: transparent; /* 👈 KEY LINE */
+}

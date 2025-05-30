@@ -17,17 +17,45 @@ for (let i = 0; i < circleCount; i++) {
 
 const orbitCanvas = document.getElementById("orbitTrailCanvas");
 const orbitCtx = orbitCanvas.getContext("2d", { alpha: true }); // 👈 important for transparency
-orbitCanvas.width = 600;
-orbitCanvas.height = 600;
+
+
+function getDocumentCenter() {
+  const docWidth = Math.max(
+    document.documentElement.clientWidth || 0,
+    window.innerWidth || 0
+  );
+  const docHeight = Math.max(
+    document.documentElement.clientHeight || 0,
+    window.innerHeight || 0
+  );
+
+  const centerX = docWidth / 2;
+  const centerY = docHeight / 2;
+
+  return { x: centerX, y: centerY };
+}
+
+const docWidth = Math.max(
+  document.documentElement.clientWidth || 0,
+  window.innerWidth || 0
+);
+
+const docHeight = Math.max(
+  document.documentElement.clientHeight || 0,
+  window.innerHeight || 0
+);
+
+orbitCanvas.width = window.innerWidth;
+orbitCanvas.height = window.innerHeight;
 
 // Pulse logic (called externally, e.g. from animate loop in pulse.js)
 window.updateOrbitingCircles = function (average) {
   const time = performance.now() / 1000;
-  const canvasRect = orbitCanvas.getBoundingClientRect();
-  const centerX = canvasRect.left + orbitCanvas.width / 2;
-  const centerY = canvasRect.top + orbitCanvas.height / 2;
-  const drawCenterX = orbitCanvas.width / 2;
-  const drawCenterY = orbitCanvas.height / 2;
+  const center = getDocumentCenter();
+  const circleCenterX = center.x;
+  const circleCenterY = center.y;
+  const trailCenterX = orbitCanvas.width / 2;
+  const trailCenterY = orbitCanvas.height / 2;
 
   // Clear with transparency for trailing effect
   orbitCtx.globalCompositeOperation = "destination-out";
@@ -40,13 +68,17 @@ window.updateOrbitingCircles = function (average) {
     const angle = time * 0.3 + (i * (Math.PI * 2) / circles.length);
     const offset = Math.sin(time * 2 + i);
     const scale = 1 + (average / 64) + 0.5 * offset;
-    const radius = 270;
+    
+    // original radius = 270
+    const radiusValue = 200;
+    const radiusMultiplier = 100;
+    const radius = radiusValue + radiusMultiplier * Math.sin(time * 2 + i);
 
-    const trailX = drawCenterX + radius * Math.cos(angle);
-    const trailY = drawCenterY + radius * Math.sin(angle);
+    const trailX = trailCenterX + radius * Math.cos(angle);
+    const trailY = trailCenterY + radius * Math.sin(angle);
 
-    const circleX = centerX + radius * Math.cos(angle);
-    const circleY = centerY + radius * Math.sin(angle);
+    const circleX = circleCenterX + radius * Math.cos(angle);
+    const circleY = circleCenterY + radius * Math.sin(angle);
 
     // Draw orbit glow effect
     orbitCtx.beginPath();
