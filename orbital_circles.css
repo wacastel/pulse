@@ -12,11 +12,6 @@
   transition: transform 0.1s ease-out;
 }
 
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
-}
-
 .orbital-circle.scale {
   transition: transform 0.1s ease-out;
 }

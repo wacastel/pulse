@@ -252,7 +252,7 @@ function startPlaying() {
   orbitalContainer.style.display = 'block';
 
   context.resume().then(() => {
-    loadTrack(0); // start playlist
+    loadTrack(93); // start playlist
     animate();
     drawBarGraph();
   });

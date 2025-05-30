@@ -21,17 +21,17 @@
 
 /* Inner rotator animates the skull around the center */
 .skull-rotator {
-  animation: orbit 8s linear infinite;
+  animation: skull-orbit 8s linear infinite;
 }
 
 /* Reverse rotator spins the opposite way */
 .skull-rotator-reverse {
-  animation: orbit 8s linear infinite reverse;
+  animation: skull-orbit 8s linear infinite reverse;
 }
 
-@keyframes orbit {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes skull-orbit {
+  from { transform: rotate(0deg) translateX(200px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(200px) rotate(-360deg); }
 }
 
 /* The skull image itself */
