@@ -18,6 +18,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let particles = [];
+let gothMode = false;
+let autoToggleInterval;
 
 // Set up canvas context for visualizer
 const visualizerCanvas = document.getElementById('visualizerCanvas');
@@ -50,7 +52,7 @@ function buildPlaylistUI() {
     div.textContent = songName;
     div.classList.add("track-item");
     div.style.cursor = "pointer";
-    div.onclick = () => loadTrack(idx);
+    div.onclick = () => loadTrack(idx, false);
     playlistUI.appendChild(div);
     playlistItems.push(div); // store the element
   });
@@ -85,7 +87,7 @@ function parseTrackInfo(filePath) {
   };
 }
 
-function loadTrack(index) {
+function loadTrack(index, autoScroll=true) {
   const playlist = isShuffled ? shuffledSongs : songs;
   currentTrack = (index + playlist.length) % playlist.length;
 
@@ -104,6 +106,10 @@ function loadTrack(index) {
   playlistItems.forEach((el, idx) => {
     el.classList.toggle("active-track", idx === actualIndex);
   });
+  const activeTrack = document.querySelector(".active-track");
+  if (activeTrack && autoScroll) {
+    activeTrack.scrollIntoView({ behavior: "auto", block: "start", inline: "nearest" });
+  }
 
   playPauseBtn.textContent = "⏸️";
 
@@ -246,10 +252,30 @@ function animate() {
   }
 }
 
+function toggleGothMode(auto = false) {
+  gothMode = !gothMode;
+  document.body.classList.toggle("goth-mode", gothMode);
+  const btn = document.getElementById("gothButton");
+  btn.textContent = gothMode ? "Enable Neon Mode" : "Enable Goth Mode";
+  skullContainer.style.display = gothMode ? "block" : "none";
+  skullContainerReverse.style.display = gothMode ? "block" : "none";
+
+  if (!auto) {
+    // Cancel auto toggle if user does it manually
+    clearInterval(autoToggleInterval);
+  }
+}
+
+// Attach manual toggle to the button
+document.getElementById("gothButton").addEventListener("click", () => toggleGothMode(false));
+
 function startPlaying() {
   button.style.display = 'none';
   circle.style.display = 'block';
   orbitalContainer.style.display = 'block';
+  
+  // Auto toggle between neon mode and goth mode every 20 seconds
+  autoToggleInterval = setInterval(() => toggleGothMode(true), 42600);
 
   context.resume().then(() => {
     loadTrack(93); // start playlist
@@ -273,15 +299,6 @@ function updateSkullVisibility() {
   skullContainerReverse.style.display = isGoth ? "block" : "none";
 }
 updateSkullVisibility();
-
-const gothButton = document.getElementById("gothButton");
-gothButton.addEventListener("click", () => {
-  document.body.classList.toggle("goth-mode");
-  gothButton.textContent = document.body.classList.contains("goth-mode")
-    ? "Disable Goth Mode"
-    : "Enable Goth Mode";
-  updateSkullVisibility();
-});
 
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
