@@ -11,7 +11,6 @@ if (circle) {
 }
 
 const skullCount = 30;
-const orbitRadius = 150;
 const skullOrbit = document.getElementById("skullOrbit");
 const skullOrbitReverse = document.getElementById("skullOrbitReverse");
 
