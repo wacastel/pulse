@@ -38,9 +38,15 @@
 .skull {
   width: 24px;
   height: 24px;
-  background-image: url('https://emojiapi.dev/api/v1/1f480/64.png');
-  background-size: cover;
   animation: skull-spin 8s linear infinite;
+}
+
+.skull.red {
+  filter: opacity(0.5) drop-shadow(0 0 0 red);
+}
+
+.skull.blue {
+  filter: opacity(0.5) drop-shadow(0 0 0 blue);
 }
 
 @keyframes skull-spin {

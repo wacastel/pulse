@@ -28,11 +28,11 @@ function createSkull(angleDeg, isReverse = false) {
     rotator.className = "skull-rotator";
   }
 
-
-
-  const skull = document.createElement("div");
+  const skull = document.createElement("img");
+  skull.src = "https://emojiapi.dev/api/v1/1f480/64.png";
   skull.className = "skull";
   if (isReverse) skull.classList.add("reverse-spin");
+  skull.classList.add(isReverse ? "red" : "blue");
 
   rotator.appendChild(skull);
   wrapper.appendChild(rotator);
