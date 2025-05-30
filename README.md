@@ -2,6 +2,11 @@
 <img width="1796" alt="Screenshot 2025-05-29 at 5 10 36 PM" src="https://github.com/user-attachments/assets/22ec0cb7-e646-4f70-8593-12fd11659a2e" />
 <img width="1802" alt="Screenshot 2025-05-29 at 5 11 52 PM" src="https://github.com/user-attachments/assets/d9e714ed-b3cc-4a93-bb08-a7c29df7e2ad" />
 
+The pulse audio player is hosted here:
+https://pulse-visual-player.netlify.app
+
+---
+
 How to start the server:
 
 npx http-server -c-1 -p 8080
