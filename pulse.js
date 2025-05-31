@@ -23,7 +23,7 @@ let autoToggleInterval;
 
 // Set up canvas context for visualizer
 const visualizerCanvas = document.getElementById('visualizerCanvas');
-const canvasCtx = visualizerCanvas.getContext("2d");
+const canvasCtx = visualizerCanvas.getContext("2d", { alpha: true });
 visualizerCanvas.width = window.innerWidth;
 visualizerCanvas.height = window.innerHeight;
 
@@ -427,8 +427,10 @@ function drawBarGraph() {
   requestAnimationFrame(drawBarGraph);
   analyser.getByteFrequencyData(dataArray);
 
-  canvasCtx.fillStyle = "rgb(0 0 0)";
+  canvasCtx.globalCompositeOperation = "destination-out";
+  canvasCtx.fillStyle = "rgba(0, 0, 0, 0.1)";
   canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  canvasCtx.globalCompositeOperation = "lighter"; // for glowy blending
 
   const barWidth = (WIDTH / bufferLength) * 2.5;
   let barHeight;
