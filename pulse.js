@@ -23,7 +23,7 @@ let autoToggleInterval;
 
 let songs = [];
 let currentTrack = 0;
-let isShuffled = false;
+//let isShuffled = false;
 let shuffledSongs = [];
 let playlistItems = []; // new array to track DOM elements
 
@@ -82,7 +82,7 @@ function parseTrackInfo(filePath) {
 }
 
 function loadTrack(index, autoScroll=true) {
-  const playlist = isShuffled ? shuffledSongs : songs;
+  const playlist = isShuffleOn ? shuffledSongs : songs;
   currentTrack = (index + playlist.length) % playlist.length;
 
   const trackToPlay = playlist[currentTrack];
@@ -384,32 +384,6 @@ document.addEventListener("keydown", (event) => {
     case "d":
     case "D":
       console.log('Particles:', particles.length);
-      break;
-
-    case "s":
-    case "S":
-      isShuffled = !isShuffled;
-      if (isShuffled) {
-        shuffledSongs = shuffleArray(songs);
-        console.log("Shuffle: ON");
-      } else {
-        console.log("Shuffle: OFF");
-      }
-      break;
-
-    case "m":
-    case "M":
-      audio.muted = !audio.muted;
-      console.log(`Mute: ${audio.muted ? "ON" : "OFF"}`);
-      break;
-
-    case "g":
-    case "G":
-      document.body.classList.toggle("goth-mode");
-      gothButton.textContent = document.body.classList.contains("goth-mode")
-        ? "Disable Goth Mode"
-        : "Enable Goth Mode";
-      updateSkullVisibility();
       break;
   }
 });

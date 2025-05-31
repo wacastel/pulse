@@ -2,9 +2,12 @@
 const pulseContainer = document.querySelector(".pulse-container");
 const particleCanvas = document.getElementById("particleCanvas");
 const orbitTrailCanvas = document.getElementById("orbitTrailCanvas");
+const gothButton = document.getElementById("gothButton");
 
 let effectsTimerEnabled = false;
 let effectsTimer = null;
+let isShuffleOn = false;
+let isMuted = false;
 
 const shortcutList = document.getElementById("shortcut-list");
 const shortcutItems = shortcutList.querySelectorAll("ul li");
@@ -54,6 +57,23 @@ function toggleEffect(key) {
         stopEffectsTimer();
       }
       break;
+    case "s":
+      isShuffleOn = !isShuffleOn;
+      document.body.classList.toggle("shuffle-on", isShuffleOn);
+      highlightShortcut(4, isShuffleOn);
+      break;
+    case "m":
+      isMuted = !isMuted;
+      if (audio) audio.muted = isMuted;
+      document.body.classList.toggle("muted-on", isMuted);
+      highlightShortcut(5, isMuted);
+      break;
+    case "g":
+      document.body.classList.toggle("goth-mode");
+      const gothActive = document.body.classList.contains("goth-mode");
+      gothButton.textContent = gothActive ? "Enable Neon Mode" : "Enable Goth Mode";
+      highlightShortcut(6, gothActive);
+      break;
   }
 }
 
@@ -80,10 +100,10 @@ function stopEffectsTimer() {
 }
 
 document.addEventListener("keydown", (e) => {
-  console.log("key pressed: ", e.key);
-  if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
-    toggleEffect(e.key);
-  } else if (e.key.toLowerCase() === "h") {
+  const key = e.key.toLowerCase();
+  if (["1", "2", "3", "4", "5", "6", "s", "m", "g"].includes(key)) {
+    toggleEffect(key);
+  } else if (key === "h") {
     const shortcutList = document.getElementById("shortcut-list");
     if (shortcutList) {
       shortcutList.style.display = shortcutList.style.display !== "block" ? "block" : "none";

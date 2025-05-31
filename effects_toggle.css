@@ -15,3 +15,43 @@ body.timer-active #shortcut-toggle::after {
   50% { opacity: 1; transform: scale(1.2); }
   100% { opacity: 0.5; transform: scale(1); }
 }
+
+#shuffleIndicator {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: lime;
+  font-family: monospace;
+  padding: 6px 12px;
+  border: 2px solid lime;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 15;
+  display: none;
+}
+
+#muteIndicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: red;
+  font-family: monospace;
+  padding: 6px 12px;
+  border: 2px solid red;
+  border-radius: 6px;
+  font-size: 14px;
+  z-index: 15;
+  display: none;
+}
+
+body.shuffle-on #shuffleIndicator {
+  display: block;
+}
+
+body.muted-on #muteIndicator {
+  display: block;
+}
