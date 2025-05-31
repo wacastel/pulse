@@ -273,6 +273,7 @@ function startPlaying() {
   button.style.display = 'none';
   circle.style.display = 'block';
   orbitalContainer.style.display = 'block';
+  centerContainer.style.display = 'block';
   
   // Auto toggle between neon mode and goth mode every 20 seconds
   autoToggleInterval = setInterval(() => toggleGothMode(true), 42600);

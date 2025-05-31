@@ -4,7 +4,13 @@ orbitalContainer.id = "orbitalContainer";
 orbitalContainer.style.display = 'none';
 document.body.appendChild(orbitalContainer);
 
+const centerContainer = document.createElement("div");
+centerContainer.id = "centerContainer";
+centerContainer.style.display = 'none';
+document.body.appendChild(centerContainer);
+
 const circles = [];
+const centerCircles = [];
 
 for (let i = 0; i < circleCount; i++) {
   const wrapper = document.createElement("div");
@@ -13,6 +19,15 @@ for (let i = 0; i < circleCount; i++) {
   wrapper.style.setProperty('--offset', i);
   orbitalContainer.appendChild(wrapper);
   circles.push(wrapper);
+}
+
+for (let i = 0; i < circleCount; i++) {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("orbital-circle");
+  wrapper.style.animationDelay = `-${(i / circleCount) * 20}s`; // orbit spacing
+  wrapper.style.setProperty('--offset', i);
+  centerContainer.appendChild(wrapper);
+  centerCircles.push(wrapper);
 }
 
 const orbitCanvas = document.getElementById("orbitTrailCanvas");
@@ -87,6 +102,18 @@ window.updateOrbitingCircles = function (average) {
     orbitCtx.shadowBlur = 20;
     orbitCtx.shadowColor = 'white';
     orbitCtx.fill();
+
+    // Move DOM element
+    circle.style.left = `${circleX}px`;
+    circle.style.top = `${circleY}px`;
+    circle.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  });
+  centerCircles.forEach((circle, i) => {
+    const offset = Math.sin(time * 2 + i);
+    const scale = 1.5 + (average / 64) + 0.8 * offset;
+
+    const circleX = circleCenterX;
+    const circleY = circleCenterY;
 
     // Move DOM element
     circle.style.left = `${circleX}px`;
