@@ -20,10 +20,20 @@ function createDrizzleParticle() {
     speedY: 1 + Math.random() * 2,
     zigzagAmplitude: 0.1 + Math.random() * 0.1,
     zigzagFrequency: 0.002 + Math.random() * 0.003,
-    hue: Math.floor(Math.random() * 360),
     size: 2 + Math.random() * 2,
     phase: Math.random() * 1000
   };
+}
+
+function getDrizzleColor() {
+  const isGoth = document.body.classList.contains("goth-mode");
+  if (isGoth) {
+    const gothPalette = ["#8B008B", "#4B0082", "#2F4F4F", "#8B0000", "#551A8B"];
+    return gothPalette[Math.floor(Math.random() * gothPalette.length)];
+  } else {
+    const neonPalette = ["#39FF14", "#FF10F0", "#00FFFF", "#FF3131", "#FFD700"];
+    return neonPalette[Math.floor(Math.random() * neonPalette.length)];
+  }
 }
 
 function updateDrizzle(audioLevel) {
@@ -41,19 +51,9 @@ function updateDrizzle(audioLevel) {
     let time = Date.now() + p.phase;
     p.x += Math.sin(time * p.zigzagFrequency) * p.zigzagAmplitude * audioLevel;
 
-    drizzleCtx.fillStyle = `hsl(${p.hue}, 100%, 70%)`;
+    drizzleCtx.fillStyle = getDrizzleColor();
     drizzleCtx.beginPath();
     drizzleCtx.arc(p.x, p.y, p.size, 0, 2 * Math.PI);
     drizzleCtx.fill();
   }
-
-  //requestAnimationFrame(() => updateDrizzle(audioLevel));
 }
-
-// Dummy audio level if not connected to a real audio visualizer
-/*let audioLevel = 0.5;
-setInterval(() => {
-  audioLevel = 0.3 + Math.random() * 0.7; // Simulate variation
-}, 200);*/
-
-//updateDrizzle(audioLevel);
