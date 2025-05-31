@@ -82,6 +82,10 @@ function parseTrackInfo(filePath) {
 }
 
 function loadTrack(index, autoScroll=true) {
+  const isShuffleOn = document.body.classList.contains("shuffle-on");
+  if (isShuffleOn) {
+    shuffledSongs = shuffleArray(songs);
+  }
   const playlist = isShuffleOn ? shuffledSongs : songs;
   currentTrack = (index + playlist.length) % playlist.length;
 
