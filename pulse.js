@@ -211,6 +211,10 @@ function animate() {
     updateOrbitingCircles(average);
   }
 
+    if (typeof updateDrizzle === "function") {
+    updateDrizzle(average);
+  }
+
   // 💫 Magic fade without hiding gradient
   ctx.globalCompositeOperation = 'destination-out';
   ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
