@@ -21,12 +21,6 @@ let particles = [];
 let gothMode = false;
 let autoToggleInterval;
 
-// Set up canvas context for visualizer
-const visualizerCanvas = document.getElementById('visualizerCanvas');
-const canvasCtx = visualizerCanvas.getContext("2d", { alpha: true });
-visualizerCanvas.width = window.innerWidth;
-visualizerCanvas.height = window.innerHeight;
-
 let songs = [];
 let currentTrack = 0;
 let isShuffled = false;
@@ -215,6 +209,10 @@ function animate() {
     updateDrizzle(average);
   }
 
+  if (typeof drawVisualizer === "function") {
+    drawVisualizer(dataArray);
+  }
+
   // 💫 Magic fade without hiding gradient
   ctx.globalCompositeOperation = 'destination-out';
   ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
@@ -283,9 +281,9 @@ function startPlaying() {
   autoToggleInterval = setInterval(() => toggleGothMode(true), 42600);
 
   context.resume().then(() => {
-    loadTrack(93); // start playlist
+    const randomTrack = Math.floor(Math.random() * songs.length);
+    loadTrack(randomTrack); // start a random song
     animate();
-    drawBarGraph();
   });
 }
 
@@ -308,8 +306,6 @@ updateSkullVisibility();
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  visualizerCanvas.width = WIDTH = window.innerWidth;
-  visualizerCanvas.height = HEIGHT = window.innerHeight;
 });
 
 audio.addEventListener("ended", () => {
@@ -418,31 +414,3 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-let WIDTH = visualizerCanvas.width;
-let HEIGHT = visualizerCanvas.height;
-
-canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-function drawBarGraph() {
-  requestAnimationFrame(drawBarGraph);
-  analyser.getByteFrequencyData(dataArray);
-
-  canvasCtx.globalCompositeOperation = "destination-out";
-  canvasCtx.fillStyle = "rgba(0, 0, 0, 0.1)";
-  canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-  canvasCtx.globalCompositeOperation = "lighter"; // for glowy blending
-
-  const barWidth = (WIDTH / bufferLength) * 2.5;
-  let barHeight;
-  let x = 0;
-  let heightMultiplier = 5;
-
-  for (let i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i] * heightMultiplier;
-    const hue = i * 3; // scale up to ~765°
-    canvasCtx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-    canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
-
-    x += barWidth + 1;
-  }
-}

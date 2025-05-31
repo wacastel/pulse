@@ -68,7 +68,6 @@ function startEffectsTimer() {
   }, 15000); // every 15 seconds
 }
 
-visualizerCanvas.style.display = "none";
 startEffectsTimer();
 effectsTimerEnabled = true;
 
