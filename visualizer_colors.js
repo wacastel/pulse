@@ -1,13 +1,7 @@
-
 const visualizerCanvas = document.getElementById('visualizerCanvas');
 const visualizerCtx = visualizerCanvas.getContext('2d');
 visualizerCanvas.width = WIDTH = window.innerWidth;
 visualizerCanvas.height = HEIGHT = window.innerHeight;
-
-window.addEventListener('resize', () => {
-  visualizerCanvas.width = WIDTH = window.innerWidth;
-  visualizerCanvas.height = WIDTH = window.innerHeight;
-});
 
 function getColor(index, total, isGoth) {
   const ratio = index / total;
