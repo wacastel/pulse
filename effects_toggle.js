@@ -81,7 +81,7 @@ function startEffectsTimer() {
   if (effectsTimer) clearInterval(effectsTimer);
   document.body.classList.add("timer-active");
   effectsTimer = setInterval(() => {
-    const keys = ["1", "2", "3", "5"];
+    const keys = ["1", "2", "3", "4", "5"];
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     toggleEffect(randomKey);
     console.log('toggling effect: ', randomKey);
