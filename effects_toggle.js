@@ -44,7 +44,6 @@ function toggleEffect(key) {
       const vis = pulseContainer && pulseContainer.style.display !== "none";
       const state = vis ? "none" : "";
       if (pulseContainer) pulseContainer.style.display = state;
-      if (particleCanvas) particleCanvas.style.display = state;
       isActive = state === "";
       highlightShortcut(11, isActive);
       break;
@@ -57,6 +56,7 @@ function toggleEffect(key) {
         stopEffectsTimer();
       }
       break;
+    case "7": isActive = toggleDisplay(particleCanvas); highlightShortcut(13, isActive); break;
     case "s":
       isShuffleOn = !isShuffleOn;
       document.body.classList.toggle("shuffle-on", isShuffleOn);
@@ -81,7 +81,7 @@ function startEffectsTimer() {
   if (effectsTimer) clearInterval(effectsTimer);
   document.body.classList.add("timer-active");
   effectsTimer = setInterval(() => {
-    const keys = ["1", "2", "3", "4", "5"];
+    const keys = ["1", "2", "3", "4", "5", "7"];
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     toggleEffect(randomKey);
     console.log('toggling effect: ', randomKey);
@@ -101,7 +101,7 @@ function stopEffectsTimer() {
 
 document.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
-  if (["1", "2", "3", "4", "5", "6", "s", "m", "g"].includes(key)) {
+  if (["1", "2", "3", "4", "5", "6", "7", "s", "m", "g"].includes(key)) {
     toggleEffect(key);
   } else if (key === "h") {
     const shortcutList = document.getElementById("shortcut-list");
