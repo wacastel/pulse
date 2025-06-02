@@ -31,7 +31,11 @@ function toggleEffect(key) {
   switch (key) {
     case "1": isActive = toggleDisplay(visualizerCanvas); highlightShortcut(7, isActive); break;
     case "2": isActive = toggleDisplay(drizzleCanvas); highlightShortcut(8, isActive); break;
-    case "3": isActive = toggleDisplay(orbitTrailCanvas); highlightShortcut(9, isActive); break;
+    case "3": 
+      isActive = toggleDisplay(orbitTrailCanvas);
+      toggleDisplay(orbitalContainer);
+      highlightShortcut(9, isActive); 
+      break;
     case "4":
       const visible = skullOrbit && skullOrbit.style.display !== "none";
       const newState = visible ? "none" : "";
@@ -41,11 +45,9 @@ function toggleEffect(key) {
       highlightShortcut(10, isActive);
       break;
     case "5":
-      const vis = pulseContainer && pulseContainer.style.display !== "none";
-      const state = vis ? "none" : "";
-      if (pulseContainer) pulseContainer.style.display = state;
-      isActive = state === "";
-      highlightShortcut(11, isActive);
+      isActive = toggleDisplay(pulseContainer);
+      toggleDisplay(centerContainer);
+      highlightShortcut(11, isActive); 
       break;
     case "6":
       effectsTimerEnabled = !effectsTimerEnabled;
