@@ -12,11 +12,11 @@
 <body>
   <div class="background-layer"></div>
   <div class="stars"></div>
-  <canvas id="particleCanvas"></canvas>
-  <canvas id="visualizerCanvas"></canvas>
-  <canvas id="orbitTrailCanvas" width="600" height="600"></canvas>
+  <canvas id="particleCanvas" class="fade-effect fade-hidden"></canvas>
+  <canvas id="visualizerCanvas" class="fade-effect fade-hidden"></canvas>
+  <canvas id="orbitTrailCanvas" class="fade-effect fade-hidden" width="600" height="600"></canvas>
   <div class="pulse-container">
-    <div class="pulse-circle" style="display:none;"></div>
+    <div class="pulse-circle fade-effect fade-hidden"></div>
   </div>
   <button id="startButton">Start the Vibe</button>
   <button id="gothButton">Enable Goth Mode</button>
@@ -51,7 +51,6 @@
       <li><strong>4</strong>: Toggle Orbiting Skulls</li>
       <li><strong>5</strong>: Toggle Pulse Circle</li>
       <li><strong>6</strong>: Toggle Effects Timer (Auto-Cycle)</li>
-      <li><strong>7</strong>: Toggle Center Particles</li>
       <li><strong>H</strong>: Show/Hide Shortcuts Menu</li>
     </ul>
   </div>

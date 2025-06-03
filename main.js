@@ -176,8 +176,8 @@ function toggleGothMode(auto = false) {
   document.body.classList.toggle("goth-mode", gothMode);
   const btn = document.getElementById("gothButton");
   btn.textContent = gothMode ? "Enable Neon Mode" : "Enable Goth Mode";
-  skullContainer.style.display = gothMode ? "block" : "none";
-  skullContainerReverse.style.display = gothMode ? "block" : "none";
+  toggleFade(skullOrbit);
+  toggleFade(skullOrbitReverse);
 
   if (!auto) {
     // Cancel auto toggle if user does it manually
@@ -188,11 +188,25 @@ function toggleGothMode(auto = false) {
 // Attach manual toggle to the button
 document.getElementById("gothButton").addEventListener("click", () => toggleGothMode(false));
 
+function toggleFade(element) {
+  if (!element) return;
+  if (!element.classList.contains("fade-effect")) {
+    element.classList.add("fade-effect");
+  }
+  element.classList.toggle("fade-hidden");
+}
+
 function startPlaying() {
   button.style.display = 'none';
-  circle.style.display = 'block';
-  orbitalContainer.style.display = 'block';
-  centerContainer.style.display = 'block';
+  toggleFade(circle);
+  toggleFade(particleCanvas);
+  toggleFade(orbitCanvas);
+  //orbitalContainer.style.display = 'block';
+  //centerContainer.style.display = 'block';
+  toggleFade(orbitalContainer);
+  toggleFade(centerContainer);
+  toggleFade(skullOrbit);
+  toggleFade(skullOrbitReverse);
   
   // Auto toggle between neon mode and goth mode every 20 seconds
   autoToggleInterval = setInterval(() => toggleGothMode(true), 42600);
@@ -212,13 +226,6 @@ function toggleShortcuts() {
   const list = document.getElementById('shortcut-list');
   list.style.display = list.style.display === 'block' ? 'none' : 'block';
 }
-
-function updateSkullVisibility() {
-  const isGoth = document.body.classList.contains("goth-mode");
-  skullContainer.style.display = isGoth ? "block" : "none";
-  skullContainerReverse.style.display = isGoth ? "block" : "none";
-}
-updateSkullVisibility();
 
 window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;

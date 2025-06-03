@@ -2,8 +2,10 @@
 
 skullContainer = document.createElement("div");
 skullContainer.id = "skullOrbit";
+skullContainer.class = "fade-effect fade-hidden";
 skullContainerReverse = document.createElement("div");
 skullContainerReverse.id = "skullOrbitReverse";
+skullContainerReverse.class = "fade-effect fade-hidden";
 const circle = document.querySelector('.pulse-circle');
 if (circle) {
   circle.appendChild(skullContainer);

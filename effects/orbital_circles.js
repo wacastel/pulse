@@ -1,12 +1,14 @@
 const circleCount = 3;
 const orbitalContainer = document.createElement("div");
 orbitalContainer.id = "orbitalContainer";
-orbitalContainer.style.display = 'none';
+orbitalContainer.classList.add("fade-effect");
+orbitalContainer.classList.add("fade-hidden");
 document.body.appendChild(orbitalContainer);
 
 const centerContainer = document.createElement("div");
 centerContainer.id = "centerContainer";
-centerContainer.style.display = 'none';
+centerContainer.classList.add("fade-effect");
+centerContainer.classList.add("fade-hidden");
 document.body.appendChild(centerContainer);
 
 const circles = [];

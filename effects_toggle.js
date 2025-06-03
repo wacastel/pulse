@@ -1,7 +1,12 @@
-// Effect elements or containers
+
+//const visualizerCanvas = document.getElementById("visualizerCanvas");
+//const drizzleCanvas = document.getElementById("drizzleCanvas");
+const orbitTrailCanvas = document.getElementById("orbitTrailCanvas");
+//const skullOrbit = document.getElementById("skullOrbit");
+//const skullOrbitReverse = document.getElementById("skullOrbitReverse");
 const pulseContainer = document.querySelector(".pulse-container");
 const particleCanvas = document.getElementById("particleCanvas");
-const orbitTrailCanvas = document.getElementById("orbitTrailCanvas");
+//const audio = document.getElementById("audio");
 const gothButton = document.getElementById("gothButton");
 
 let effectsTimerEnabled = false;
@@ -9,45 +14,50 @@ let effectsTimer = null;
 let isShuffleOn = false;
 let isMuted = false;
 
+// Helper: fade toggle logic
+function fadeToggle(element) {
+  if (!element) return;
+  if (!element.classList.contains("fade-effect")) {
+    element.classList.add("fade-effect");
+  }
+  element.classList.toggle("fade-hidden");
+}
+
+// Highlight shortcut menu items
 const shortcutList = document.getElementById("shortcut-list");
 const shortcutItems = shortcutList.querySelectorAll("ul li");
 
-// Add highlight class to an item by index
 function highlightShortcut(index, isOn) {
   if (shortcutItems[index]) {
     shortcutItems[index].classList.toggle("active-shortcut", isOn);
   }
 }
 
-function toggleDisplay(element) {
-  if (!element) return false;
-  const isNowVisible = element.style.display !== "none";
-  element.style.display = isNowVisible ? "none" : "";
-  return !isNowVisible;
-}
-
 function toggleEffect(key) {
-  let isActive = false;
   switch (key) {
-    case "1": isActive = toggleDisplay(visualizerCanvas); highlightShortcut(7, isActive); break;
-    case "2": isActive = toggleDisplay(drizzleCanvas); highlightShortcut(8, isActive); break;
-    case "3": 
-      isActive = toggleDisplay(orbitTrailCanvas);
-      toggleDisplay(orbitalContainer);
-      highlightShortcut(9, isActive); 
+    case "1":
+      fadeToggle(visualizerCanvas);
+      highlightShortcut(7, !visualizerCanvas.classList.contains("fade-hidden"));
+      break;
+    case "2":
+      fadeToggle(drizzleCanvas);
+      highlightShortcut(8, !drizzleCanvas.classList.contains("fade-hidden"));
+      break;
+    case "3":
+      fadeToggle(orbitTrailCanvas);
+      fadeToggle(orbitalContainer);
+      highlightShortcut(9, !orbitTrailCanvas.classList.contains("fade-hidden"));
       break;
     case "4":
-      const visible = skullOrbit && skullOrbit.style.display !== "none";
-      const newState = visible ? "none" : "";
-      if (skullOrbit) skullOrbit.style.display = newState;
-      if (skullOrbitReverse) skullOrbitReverse.style.display = newState;
-      isActive = newState === "";
-      highlightShortcut(10, isActive);
+      fadeToggle(skullOrbit);
+      fadeToggle(skullOrbitReverse);
+      highlightShortcut(10, !skullOrbit.classList.contains("fade-hidden"));
       break;
     case "5":
-      isActive = toggleDisplay(pulseContainer);
-      toggleDisplay(centerContainer);
-      highlightShortcut(11, isActive); 
+      fadeToggle(pulseContainer);
+      fadeToggle(centerContainer);
+      fadeToggle(particleCanvas);
+      highlightShortcut(11, !pulseContainer.classList.contains("fade-hidden"));
       break;
     case "6":
       effectsTimerEnabled = !effectsTimerEnabled;
@@ -58,7 +68,6 @@ function toggleEffect(key) {
         stopEffectsTimer();
       }
       break;
-    case "7": isActive = toggleDisplay(particleCanvas); highlightShortcut(13, isActive); break;
     case "s":
       isShuffleOn = !isShuffleOn;
       document.body.classList.toggle("shuffle-on", isShuffleOn);
@@ -67,13 +76,11 @@ function toggleEffect(key) {
     case "m":
       isMuted = !isMuted;
       if (audio) audio.muted = isMuted;
-      document.body.classList.toggle("muted-on", isMuted);
+      document.body.classList.toggle("muted", isMuted);
       highlightShortcut(5, isMuted);
       break;
     case "g":
-      document.body.classList.toggle("goth-mode");
-      const gothActive = document.body.classList.contains("goth-mode");
-      gothButton.textContent = gothActive ? "Enable Neon Mode" : "Enable Goth Mode";
+      toggleGothMode();
       highlightShortcut(6, gothActive);
       break;
   }
@@ -83,11 +90,10 @@ function startEffectsTimer() {
   if (effectsTimer) clearInterval(effectsTimer);
   document.body.classList.add("timer-active");
   effectsTimer = setInterval(() => {
-    const keys = ["1", "2", "3", "4", "5", "7"];
+    const keys = ["1", "2", "3", "5"];
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     toggleEffect(randomKey);
-    console.log('toggling effect: ', randomKey);
-  }, 15000); // every 15 seconds
+  }, 15000);
 }
 
 startEffectsTimer();
@@ -103,12 +109,13 @@ function stopEffectsTimer() {
 
 document.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
-  if (["1", "2", "3", "4", "5", "6", "7", "s", "m", "g"].includes(key)) {
+  if (["1", "2", "3", "4", "5", "6", "s", "m", "g"].includes(key)) {
     toggleEffect(key);
   } else if (key === "h") {
     const shortcutList = document.getElementById("shortcut-list");
     if (shortcutList) {
-      shortcutList.style.display = shortcutList.style.display !== "block" ? "block" : "none";
+      //shortcutList.style.display = shortcutList.style.display === "none" ? "block" : "none";
+      toggleShortcuts();
     }
   }
 });
