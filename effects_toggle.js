@@ -1,12 +1,6 @@
-
-//const visualizerCanvas = document.getElementById("visualizerCanvas");
-//const drizzleCanvas = document.getElementById("drizzleCanvas");
 const orbitTrailCanvas = document.getElementById("orbitTrailCanvas");
-//const skullOrbit = document.getElementById("skullOrbit");
-//const skullOrbitReverse = document.getElementById("skullOrbitReverse");
 const pulseContainer = document.querySelector(".pulse-container");
 const particleCanvas = document.getElementById("particleCanvas");
-//const audio = document.getElementById("audio");
 const gothButton = document.getElementById("gothButton");
 
 let effectsTimerEnabled = false;
@@ -114,7 +108,6 @@ document.addEventListener("keydown", (e) => {
   } else if (key === "h") {
     const shortcutList = document.getElementById("shortcut-list");
     if (shortcutList) {
-      //shortcutList.style.display = shortcutList.style.display === "none" ? "block" : "none";
       toggleShortcuts();
     }
   }

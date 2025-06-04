@@ -23,7 +23,6 @@ let autoToggleInterval;
 
 let songs = [];
 let currentTrack = 0;
-//let isShuffled = false;
 let shuffledSongs = [];
 let playlistItems = []; // new array to track DOM elements
 
@@ -201,15 +200,13 @@ function startPlaying() {
   toggleFade(circle);
   toggleFade(particleCanvas);
   toggleFade(orbitCanvas);
-  //orbitalContainer.style.display = 'block';
-  //centerContainer.style.display = 'block';
   toggleFade(orbitalContainer);
   toggleFade(centerContainer);
   toggleFade(skullOrbit);
   toggleFade(skullOrbitReverse);
   
-  // Auto toggle between neon mode and goth mode every 20 seconds
-  autoToggleInterval = setInterval(() => toggleGothMode(true), 42600);
+  // Auto toggle between neon mode and goth mode every 60 seconds
+  autoToggleInterval = setInterval(() => toggleGothMode(true), 60000);
 
   context.resume().then(() => {
     const randomTrack = Math.floor(Math.random() * songs.length);
