@@ -7,8 +7,6 @@ https://pulse-visual-player.netlify.app
 
 <img width="1413" alt="Screenshot 2025-06-03 at 5 08 27 PM" src="https://github.com/user-attachments/assets/fb8d53c1-a627-4f41-b3ae-e4c06ec6b9df" />
 
-<img width="1410" alt="Screenshot 2025-06-03 at 5 08 46 PM" src="https://github.com/user-attachments/assets/7cb714bf-59cd-47e0-b5c4-ed445f41a8e7" />
-
 <img width="1410" alt="Screenshot 2025-06-03 at 5 08 56 PM" src="https://github.com/user-attachments/assets/9fa541bf-6c13-4293-863a-e05b12bc705a" />
 
 ---
