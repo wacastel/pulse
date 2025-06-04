@@ -3,8 +3,13 @@ https://pulse-visual-player.netlify.app
 
 ---
 
-<img width="1796" alt="Screenshot 2025-05-29 at 5 10 36 PM" src="https://github.com/user-attachments/assets/22ec0cb7-e646-4f70-8593-12fd11659a2e" />
-<img width="1802" alt="Screenshot 2025-05-29 at 5 11 52 PM" src="https://github.com/user-attachments/assets/d9e714ed-b3cc-4a93-bb08-a7c29df7e2ad" />
+<img width="1405" alt="Screenshot 2025-06-03 at 5 07 56 PM" src="https://github.com/user-attachments/assets/00176c04-2c67-40e5-be94-dfa3aefb54f6" />
+
+<img width="1413" alt="Screenshot 2025-06-03 at 5 08 27 PM" src="https://github.com/user-attachments/assets/fb8d53c1-a627-4f41-b3ae-e4c06ec6b9df" />
+
+<img width="1410" alt="Screenshot 2025-06-03 at 5 08 46 PM" src="https://github.com/user-attachments/assets/7cb714bf-59cd-47e0-b5c4-ed445f41a8e7" />
+
+<img width="1410" alt="Screenshot 2025-06-03 at 5 08 56 PM" src="https://github.com/user-attachments/assets/9fa541bf-6c13-4293-863a-e05b12bc705a" />
 
 ---
 
